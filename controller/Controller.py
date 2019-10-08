@@ -4,28 +4,27 @@ from Tkinter import *
 
 class Controller:
 
+    strFolderName = None
+
     def __init__(self):
         print "constructor control"
         self.model = myModel.Model()
         self.gui = myGui.Gui(master=root)
         self.gui.setController(self)
-        #gui events
-
-        #self.gui.btnUploadFile.bind("<Button>", self.uploadFile)
-        #self.gui.btnSelectDestination.bind("<Button>", self.updateFolderDestination)
-        #self.gui.btnSelectDestination.bind("<Button>", self.updateFolderDestination)
 
         self.gui.drawTree()
         self.gui.mainloop()
 
-
-    def readFile(self, event):
+    def readFile(self):
         print "readFile controller"
-        self.model.readFile()
+        pathFileToRead =  self.gui.txtFilePath.get()
 
-    def uploadFile(self, event):
-        print "refreshUploadedFile"
-        self.gui.updatePathloadedFile(self.gui.pathSelectedFile)
+        self.model.readFile(pathFileToRead)
+
+    def uploadFile(self, param):
+        pathFileToRead = param
+        self.gui.txtFilePath.delete(0,END)
+        self.gui.txtFilePath.insert(0, pathFileToRead)
 
     def updateFolderDestination(self):
         pathDestination = self.gui.strPathSelectedFolder
@@ -33,13 +32,19 @@ class Controller:
             self.gui.setPathDestination(pathDestination)
             self.gui.enablebtnGenerate()
 
+    def updadeFolderNameToGenerate(self):
+        self.strFolderName = self.gui.txtSemester.get() + "-" + self.gui.txtYear.get() + "-" + self.gui.txtCourseCode.get()
+
+        self.gui.txtFolderName["state"] = 'normal'
+        self.gui.txtFolderName.delete(0, END)
+        self.gui.txtFolderName.insert(0, self.strFolderName)
+        self.gui.txtFolderName["state"] = 'readonly'
+
     def generateFolders(self):
         print "generateFolders() Controller"
         #TODO generate the name of the folder
         #self.model.createFolders(self.gui.strFolderName, self.gui.strPathSelectedFolder)
-        self.model.createFolders("F O L D E R N A M E", self.gui.strPathSelectedFolder)
-
-
+        self.model.createFolders(self.strFolderName, self.gui.strPathSelectedFolder)
 
 root = Tk()
 control = Controller()

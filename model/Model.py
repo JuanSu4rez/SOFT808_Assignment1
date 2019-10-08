@@ -1,12 +1,24 @@
-from pathlib import Path
-import os
 import docx
+import os
 import docx2txt
+
+#####################################################################################
+import subprocess
+import glob
+
+#import subprocess
+#import os
+#for filename in os.listdir(os.getcwd()):
+#    if filename.endswith('.doc'):
+#        print filename
+#        subprocess.call(['soffice', '--headless', '--convert-to', 'docx', filename])
+########################################################################
 
 class Model:
 
     pathSelectedFile = ""
     nameSelectedFile = ""
+    arrayFolders = []
 
     def __init__(self):
         print "constructor model"
@@ -20,15 +32,27 @@ class Model:
     def enableBtnProcess(self):
         self.btnProcess["state"] = "active"
 
-    def readFile(self):
-        print "readFile model"
+    def readFile(self, pathFile):
+        print "readFile model " + pathFile
+        text = docx2txt.process(pathFile)
+        indexOne = text.find('Summative Assessment')
+        indexTwo = text.find('Content')
+        #splitResult = text[indexOne:indexTwo].split('\n')
+        splitResult = text[indexOne:indexTwo].split('\n\n\n')
+        #print text[indexOne:indexTwo]
+        #for i in splitResult:
+            #print "[" + i + "]"
 
-    #def createFolders(self, folderName, pathDestination):
-    #    print "createFolders model"
-    #    print "The folders should be created in " + str(pathDestination) + " with the name " + str(folderName)
+        secondResult = {}
 
-    def printing(self):
-        print "printing model"
+        for x in range(1, len(splitResult)):
+            #print "{" + splitResult[x] + "}"
+            secondResult[x-1] = splitResult[x].split('\n')
+            #print x
+
+        for j in secondResult:
+            print secondResult[j][1]
+            self.arrayFolders.append(str(secondResult[j][1]))
 
 ##############################################################################
 ##############################################################################
