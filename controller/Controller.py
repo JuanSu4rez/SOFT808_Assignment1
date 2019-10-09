@@ -20,6 +20,15 @@ class Controller:
         pathFileToRead =  self.gui.txtFilePath.get()
 
         self.model.readFile(pathFileToRead)
+        self.updateCourseCode()
+        self.updadeFolderNameToGenerate()
+
+    def updateCourseCode(self):
+
+        self.gui.txtCourseCode["state"] = 'normal'
+        self.gui.txtCourseCode.delete(0, END)
+        self.gui.txtCourseCode.insert(0, self.model.extractedCourseCode)
+        self.gui.txtCourseCode["state"] = 'readonly'
 
     def uploadFile(self, param):
         pathFileToRead = param
@@ -33,7 +42,7 @@ class Controller:
             self.gui.enablebtnGenerate()
 
     def updadeFolderNameToGenerate(self):
-        self.strFolderName = self.gui.txtSemester.get() + "-" + self.gui.txtYear.get() + "-" + self.gui.txtCourseCode.get()
+        self.strFolderName = self.gui.semesterComboBox.get() + "-" + self.gui.yearComboBox.get() + "-" + self.gui.txtCourseCode.get()
 
         self.gui.txtFolderName["state"] = 'normal'
         self.gui.txtFolderName.delete(0, END)
@@ -46,8 +55,10 @@ class Controller:
         #self.model.createFolders(self.gui.strFolderName, self.gui.strPathSelectedFolder)
         self.model.createFolders(self.strFolderName, self.gui.strPathSelectedFolder)
 
-root = Tk()
-control = Controller()
+if __name__ == '__main__':
+    root = Tk()
+    control = Controller()
+
 
 #model = myModel.Model()
 #app = myGui.Gui(master=root)

@@ -13,11 +13,17 @@ import docx2txt
 
 class Gui(Frame):
 
+
     myController = None
-    strPathSelectedFile = None
+    strPathSelectedFile = ""
+    semesterOption = None
+    yearOption = None
+
 
     def __init__(self, master):
         print "constructor view"
+        self.semesterOption = StringVar()
+        self.yearOption = StringVar()
         Frame.__init__(self, master)
         self.master.title("Folder Maker")
         self.master.geometry("1100x650")
@@ -38,19 +44,31 @@ class Gui(Frame):
         self.lblPnlSettingValues = Label(master, text="Setting values").place(x=15, y=100)
         self.lblSemester = Label(master, text="Semester").place(x=15, y=120)
 
-        self.txtSemester = Entry(master, text="", width=12)
-        self.txtSemester.place(x=15, y=150)
-        self.txtSemester.bind("<Key>", self.updadeFileName)
+
+        semesterOptions = ["S1", "S2", "S3"]
+
+        self.semesterComboBox = ttk.Combobox(master, textvariable =self.semesterOption, values=semesterOptions)
+        self.semesterComboBox.config(width=8)
+        self.semesterComboBox.place(x=15, y=150)
+        self.semesterComboBox.set(semesterOptions[0])
+        self.semesterComboBox.bind("<<ComboboxSelected>>", self.updadeFileName)
 
         self.lblYear = Label(master, text="Year").place(x=100, y=120)
 
-        self.txtYear = Entry(master, text="", width=12)
-        self.txtYear.place(x=100, y=150)
-        self.txtYear.bind("<Key>", self.updadeFileName)
+
+        yearOptions = []
+        for x in range(2000, 2050):
+            yearOptions.append(str(x) + "")
+
+        self.yearComboBox = ttk.Combobox(master, textvariable =self.yearOption, values=yearOptions)
+        self.yearComboBox.config(width=8)
+        self.yearComboBox.place(x=100, y=150)
+        self.yearComboBox.set(yearOptions[0])
+        self.yearComboBox.bind("<<ComboboxSelected>>", self.updadeFileName)
 
         self.lblCourseCode = Label(master, text="Course code").place(x=185, y=120)
 
-        self.txtCourseCode = Entry(master, text="", width=12)
+        self.txtCourseCode = Entry(master, text="", width=12, state='readonly')
         self.txtCourseCode.place(x=185, y=150)
         self.txtCourseCode.bind("<Key>", self.updadeFileName)
 

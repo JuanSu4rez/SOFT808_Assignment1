@@ -18,6 +18,7 @@ class Model:
 
     pathSelectedFile = ""
     nameSelectedFile = ""
+    extractedCourseCode = ""
     arrayFolders = []
 
     def __init__(self):
@@ -35,6 +36,15 @@ class Model:
     def readFile(self, pathFile):
         print "readFile model " + pathFile
         text = docx2txt.process(pathFile)
+        #Course Code
+        indexOneCode = text.find("Course Code")
+        indexTwoCode = text.find("Course Title")
+        courseCodeText = text[indexOneCode:indexTwoCode].split('\n\n')
+        self.extractedCourseCode = str(courseCodeText[1])
+
+        #print self.extractedCourseCode
+
+        #Folder structure
         indexOne = text.find('Summative Assessment')
         indexTwo = text.find('Content')
         #splitResult = text[indexOne:indexTwo].split('\n')
@@ -51,11 +61,14 @@ class Model:
             #print x
 
         for j in secondResult:
-            #print secondResult[j][1]
-            self.arrayFolders.append(str(secondResult[j][1]))
+            if secondResult[j][1] is not None:
+                print secondResult[j][1]
+                self.arrayFolders.append(str(secondResult[j][1]))
+            else:
+                print "empty row"
 
-        for p in self.arrayFolders:
-            print p
+        #for p in self.arrayFolders:
+        #    print p
 
 ##############################################################################
 ##############################################################################
@@ -105,3 +118,6 @@ class Model:
         for z in moderationMaterial:
             os.mkdir(
                 main_folder + backslash + "Assessment" + backslash + self.arrayFolders[0] + backslash + "ModerationMaterial" + backslash + z)
+
+    def getExtractedCourseCode(self):
+        return self.extractedCourseCode
