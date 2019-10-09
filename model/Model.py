@@ -51,8 +51,11 @@ class Model:
             #print x
 
         for j in secondResult:
-            print secondResult[j][1]
+            #print secondResult[j][1]
             self.arrayFolders.append(str(secondResult[j][1]))
+
+        for p in self.arrayFolders:
+            print p
 
 ##############################################################################
 ##############################################################################
@@ -67,14 +70,11 @@ class Model:
 
         stage_1 = ["Assessment", "ClassRoll", "CourseOutline", "CourseResultSummary", "LectureMaterial", "Other Documents", "SpreadSheet"]
 
-        assesment = ["Assignment1", "MidTerm", "Assignment2", "Final"]
+        assesment = self.arrayFolders
         courseOutline = ["Drafts", "ModerationForm"]
         lectureMaterial = ["Book", "Week1", "Week2", "Week3", "Week4", "Week5", "Week7", "Week8", "Week9", "Week10", "Week11", "Week12"]
 
-        assignment1 = ["Drafts", "ModerationMaterial", "Submissions"]
-        midTerm = ["Drafts", "ModerationMaterial", "Submissions"]
-        assignment2 = ["Drafts", "ModerationMaterial", "Submissions"]
-        final = ["Drafts", "ModerationMaterial", "Submissions"]
+
         drafts = "Soft808.docx"
 
         moderationMaterial = ["ModerationForms", "ThreeSamples"]
@@ -85,6 +85,9 @@ class Model:
 
         for x1 in assesment:
             os.mkdir(main_folder + backslash + "Assessment" + backslash + x1)
+            os.mkdir(main_folder + backslash + "Assessment" + backslash + x1 + backslash + "Drafts")
+            os.mkdir(main_folder + backslash + "Assessment" + backslash + x1 + backslash + "ModerationMaterial")
+            os.mkdir(main_folder + backslash + "Assessment" + backslash + x1 + backslash + "Submissions")
 
         for x2 in courseOutline:
             os.mkdir(main_folder + backslash + "CourseOutline" + backslash + x2)
@@ -94,17 +97,6 @@ class Model:
             os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + x3)
         os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + week6)
 
-        for y1 in assignment1:
-            os.mkdir(main_folder + backslash + "Assessment" + backslash + "Assignment1" + backslash + y1)
-
-        for y2 in midTerm:
-            os.mkdir(main_folder + backslash + "Assessment" + backslash + "MidTerm" + backslash + y2)
-
-        for y3 in assignment2:
-            os.mkdir(main_folder + backslash + "Assessment" + backslash + "Assignment2" + backslash + y3)
-
-        for y4 in final:
-            os.mkdir(main_folder + backslash + "Assessment" + backslash + "Final" + backslash + y4)
 
         newDoc = docx.Document()
         newDoc.add_paragraph("Course Outline")
@@ -112,4 +104,4 @@ class Model:
 
         for z in moderationMaterial:
             os.mkdir(
-                main_folder + backslash + "Assessment" + backslash + "Assignment1" + backslash + "ModerationMaterial" + backslash + z)
+                main_folder + backslash + "Assessment" + backslash + self.arrayFolders[0] + backslash + "ModerationMaterial" + backslash + z)
