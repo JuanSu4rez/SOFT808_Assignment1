@@ -44,7 +44,6 @@ class Gui(Frame):
         self.lblPnlSettingValues = Label(master, text="Setting values").place(x=15, y=100)
         self.lblSemester = Label(master, text="Semester").place(x=15, y=120)
 
-
         semesterOptions = ["S1", "S2", "S3"]
 
         self.semesterComboBox = ttk.Combobox(master, textvariable =self.semesterOption, values=semesterOptions)
@@ -54,7 +53,6 @@ class Gui(Frame):
         self.semesterComboBox.bind("<<ComboboxSelected>>", self.updadeFileName)
 
         self.lblYear = Label(master, text="Year").place(x=100, y=120)
-
 
         yearOptions = []
         for x in range(2000, 2050):
@@ -89,14 +87,27 @@ class Gui(Frame):
         self.btnGenerate.place(x=310, y=240)
 
         #Panel "Folder structure"
-        self.imgFolder = PhotoImage(file="./Folder.gif")
-        self.imgFile = PhotoImage(file="./File.gif")
 
+        #Tree
         self.frmTree = Frame(height=280, width=700, bd=3, relief='groove').place(x=5, y=290)
         self.lblFolderStructure = Label(master, text="Folder structure").place(x=15, y=280)
         self.viewTree = ttk.Treeview(master, height=11)
         self.viewTree.place(x=10, y=300)
         #tree.place(x=310, y=240)
+
+        #Panel Instructions
+
+
+
+        self.imgLogo = PhotoImage(file="./Logo.gif")
+        self.lblImgLogo = Label(master, image=self.imgLogo)
+        self.lblImgLogo.pack()
+        self.lblImgLogo.place(x=840, y=10)
+
+        self.imgInstructions = PhotoImage(file="./Instructions.gif")
+        self.lblImgInstructions = Label(master, image=self.imgInstructions)
+        self.lblImgInstructions.pack()
+        self.lblImgInstructions.place(x=750, y=160)
 
         #GUI attributes
         self.strPathSelectedFile = ""
