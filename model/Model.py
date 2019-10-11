@@ -1,6 +1,8 @@
 import docx
 import os
 import docx2txt
+from shutil import copyfile
+
 
 #####################################################################################
 import subprocess
@@ -15,7 +17,7 @@ import glob
 ########################################################################
 
 class Model:
-
+    cdPath=""
     pathSelectedFile = ""
     nameSelectedFile = ""
     extractedCourseCode = ""
@@ -36,6 +38,7 @@ class Model:
     def readFile(self, pathFile):
         print "readFile model " + pathFile
         text = docx2txt.process(pathFile)
+        self.cdPath = pathFile
         #Course Code
         indexOneCode = text.find("Course Code")
         indexTwoCode = text.find("Course Title")
@@ -105,14 +108,29 @@ class Model:
         for x2 in courseOutline:
             os.mkdir(main_folder + backslash + "CourseOutline" + backslash + x2)
 
-            week6 = "Week6(Mid Semester Week)"
+            week6 = "Week6"
         for x3 in lectureMaterial:
             os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + x3)
         os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + week6)
 
+        #newCDFile = docx.Document();
+        #newCDFile = docx.Document(self.cdPath);
+        #print newCDFile.name
+        #newCDFile.save(main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts)
+
+        print "source " + self.cdPath
+        print "destination " + main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts
+        print "drafts " + drafts
+
+        destinationFolder = self.cdPath.split('/')
+
+        print "------------------------------"
+        print destinationFolder
+
+        copyfile(self.cdPath, main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + destinationFolder[len(destinationFolder) - 1])
 
         newDoc = docx.Document()
-        newDoc.add_paragraph("Course Outline")
+        newDoc.add_paragraph("Sample Course Outline")
         newDoc.save(main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts)
 
         for z in moderationMaterial:
