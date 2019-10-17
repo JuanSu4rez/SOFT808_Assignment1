@@ -4,19 +4,12 @@ import docx2txt
 from shutil import copyfile
 
 
-#####################################################################################
-import subprocess
-import glob
-
-#import subprocess
-#import os
-#for filename in os.listdir(os.getcwd()):
-#    if filename.endswith('.doc'):
-#        print filename
-#        subprocess.call(['soffice', '--headless', '--convert-to', 'docx', filename])
-########################################################################
+#   SOFT808 Software User Experience
+#   Juan Sebastian Suarez
+#   model - Model
 
 class Model:
+
     cdPath=""
     pathSelectedFile = ""
     nameSelectedFile = ""

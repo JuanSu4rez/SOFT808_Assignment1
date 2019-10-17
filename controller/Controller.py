@@ -2,6 +2,10 @@ from model import Model as myModel
 from view import Gui as myGui
 from Tkinter import *
 
+#   SOFT808 Software User Experience
+#   Juan Sebastian Suarez
+#   controller - Controller
+
 class Controller:
 
     strFolderName = None

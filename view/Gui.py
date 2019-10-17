@@ -10,6 +10,9 @@ from pathlib import Path
 import os
 import docx2txt
 
+#   SOFT808 Software User Experience
+#   Juan Sebastian Suarez
+#   View - Main frame
 
 class Gui(Frame):
 
@@ -25,7 +28,7 @@ class Gui(Frame):
         self.semesterOption = StringVar()
         self.yearOption = StringVar()
         Frame.__init__(self, master)
-        self.master.title("Folder Maker")
+        self.master.title("Course outline creator")
         self.master.configure(background='#66CCCC')
         self.master.geometry("1100x650")
         self.master.resizable(width=None, height=None)
@@ -43,7 +46,7 @@ class Gui(Frame):
         #Panel "Setting values"
         self.frmFileName = Frame(height=170, width=700, bd=3, relief='groove', bg='#66CCCC').place(x=5, y=110)
         self.lblPnlSettingValues = Label(master, text="Setting values", fg='#990000', bg='#66CCCC', font="Verdata 12 bold").place(x=15, y=100)
-        self.lblSemester = Label(master, text="Semester", bg='#66CCCC').place(x=15, y=120)
+        self.lblSemester = Label(master, text="Semester", bg='#66CCCC', font="Verdata 11").place(x=15, y=120)
 
         semesterOptions = ["S1", "S2", "S3"]
 
@@ -53,7 +56,7 @@ class Gui(Frame):
         self.semesterComboBox.set(semesterOptions[0])
         self.semesterComboBox.bind("<<ComboboxSelected>>", self.updadeFileName)
 
-        self.lblYear = Label(master, text="Year", bg='#66CCCC').place(x=100, y=120)
+        self.lblYear = Label(master, text="Year", bg='#66CCCC', font="Verdata 11").place(x=100, y=120)
 
         yearOptions = []
         for x in range(2000, 2050):
@@ -65,18 +68,18 @@ class Gui(Frame):
         self.yearComboBox.set(yearOptions[0])
         self.yearComboBox.bind("<<ComboboxSelected>>", self.updadeFileName)
 
-        self.lblCourseCode = Label(master, text="Course code", bg='#66CCCC').place(x=185, y=120)
+        self.lblCourseCode = Label(master, text="Course code", bg='#66CCCC', font="Verdata 11").place(x=180, y=120)
 
         self.txtCourseCode = Entry(master, text="", width=12, state='readonly')
         self.txtCourseCode.place(x=185, y=150)
         self.txtCourseCode.bind("<Key>", self.updadeFileName)
 
-        self.lblFolderName = Label(master, text="Folder name", bg='#66CCCC').place(x=270, y=120)
+        self.lblFolderName = Label(master, text="Folder name", bg='#66CCCC', font="Verdata 11").place(x=270, y=120)
 
         self.txtFolderName = Entry(master, text="", width=70, state='readonly')
         self.txtFolderName.place(x=270, y=150)
 
-        self.lblDestination = Label(master, text="Select folder destination", bg='#66CCCC').place(x=15, y=180)
+        self.lblDestination = Label(master, text="Select folder destination", bg='#66CCCC', font="Verdata 11").place(x=15, y=180)
 
         self.txtFolderPath = Entry(master, text="", width=100)
         self.txtFolderPath.place(x=15, y=210)
@@ -91,7 +94,7 @@ class Gui(Frame):
 
         #Tree
         self.frmTree = Frame(height=280, width=700, bd=3, relief='groove', bg='#66CCCC').place(x=5, y=290)
-        self.lblFolderStructure = Label(master, text="Folder structure", bg='#66CCCC').place(x=15, y=280)
+        self.lblFolderStructure = Label(master, text="Folder structure", bg='#66CCCC', font="Verdata 11").place(x=15, y=280)
         self.viewTree = ttk.Treeview(master, height=11)
         self.viewTree.place(x=10, y=300)
         #tree.place(x=310, y=240)
