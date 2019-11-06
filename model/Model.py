@@ -16,6 +16,7 @@ class Model:
     extractedCourseCode = ""
     arrayFolders = []
 
+
     def __init__(self):
         print "constructor model"
 
@@ -105,11 +106,6 @@ class Model:
         for x3 in lectureMaterial:
             os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + x3)
         os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + week6)
-
-        #newCDFile = docx.Document();
-        #newCDFile = docx.Document(self.cdPath);
-        #print newCDFile.name
-        #newCDFile.save(main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts)
 
         print "source " + self.cdPath
         print "destination " + main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts

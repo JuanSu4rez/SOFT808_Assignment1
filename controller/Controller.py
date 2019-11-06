@@ -2,30 +2,30 @@ from model import Model as myModel
 from view import Gui as myGui
 from Tkinter import *
 
+
 #   SOFT808 Software User Experience
 #   Juan Sebastian Suarez
 #   controller - Controller
 
 class Controller:
-
     strFolderName = None
 
     def __init__(self):
-        print "constructor control"
+        # print "constructor control"
         self.model = myModel.Model()
         self.gui = myGui.Gui(master=root)
         self.gui.setController(self)
 
-        self.gui.drawTree()
         self.gui.mainloop()
 
     def readFile(self):
         print "readFile controller"
-        pathFileToRead =  self.gui.txtFilePath.get()
+        pathFileToRead = self.gui.txtFilePath.get()
 
         self.model.readFile(pathFileToRead)
         self.updateCourseCode()
         self.updadeFolderNameToGenerate()
+        self.gui.drawTree(self.strFolderName, self.model.arrayFolders)
 
     def updateCourseCode(self):
 
@@ -36,8 +36,15 @@ class Controller:
 
     def uploadFile(self, param):
         pathFileToRead = param
-        self.gui.txtFilePath.delete(0,END)
+        self.gui.txtFilePath.delete(0, END)
         self.gui.txtFilePath.insert(0, pathFileToRead)
+        try:
+            self.readFile()
+            self.gui.showMessage("Success !","The file was read successfully")
+        except Exception:
+            self.gui.showError("Error !", "The file does not have the correct structure")
+            self.gui.txtFilePath.delete(0, END)
+            self.gui.txtFilePath.insert(0, "")
 
     def updateFolderDestination(self):
         pathDestination = self.gui.strPathSelectedFolder
@@ -46,7 +53,8 @@ class Controller:
             self.gui.enablebtnGenerate()
 
     def updadeFolderNameToGenerate(self):
-        self.strFolderName = self.gui.semesterComboBox.get() + "-" + self.gui.yearComboBox.get() + "-" + self.gui.txtCourseCode.get()
+        # self.strFolderName = self.gui.semesterComboBox.get() + "-" + self.gui.yearComboBox.get() + "-" + self.gui.txtCourseCode.get()
+        self.strFolderName = self.gui.semesterComboBox.get() + "-" + self.gui.txtCourseCode.get()
 
         self.gui.txtFolderName["state"] = 'normal'
         self.gui.txtFolderName.delete(0, END)
@@ -55,24 +63,26 @@ class Controller:
 
     def generateFolders(self):
         print "generateFolders() Controller"
-        #TODO generate the name of the folder
-        #self.model.createFolders(self.gui.strFolderName, self.gui.strPathSelectedFolder)
-        self.model.createFolders(self.strFolderName, self.gui.strPathSelectedFolder)
+        # TODO generate the name of the folder
+        # self.model.createFolders(self.gui.strFolderName, self.gui.strPathSelectedFolder)
+        try:
+            self.model.createFolders(self.strFolderName, self.gui.strPathSelectedFolder)
+            self.gui.showMessage("Success !", "The folders were generated")
+        except Exception as e:
+            self.gui.showError("Error !", "There was an error during the folder generation" + "\n\n" + str(e))
+
 
 if __name__ == '__main__':
     root = Tk()
     control = Controller()
 
-
-#model = myModel.Model()
-#app = myGui.Gui(master=root)
-#app.mainloop()
-
+# model = myModel.Model()
+# app = myGui.Gui(master=root)
+# app.mainloop()
 
 
-
-#main = Tk()
-#main.title("SOFT808 UX")
-#main.geometry("900x600")
-#app = MainApp(main)
-#main.mainloop()
+# main = Tk()
+# main.title("SOFT808 UX")
+# main.geometry("900x600")
+# app = MainApp(main)
+# main.mainloop()
