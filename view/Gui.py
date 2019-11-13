@@ -30,11 +30,14 @@ class Gui(Frame):
 
         self.style = ttk.Style()
         self.style.configure('.', background='#66CCCC')
+        self.style.configure('TNotebook.Tab', font=('Verdata', '10', 'bold'))
+        self.style.configure('rightTab.TNotebook', font=('Verdata', '10', 'bold'), tabposition='ws')
+        #font = ('URW Gothic L', '11', 'bold')
 
         self.tab_parent = ttk.Notebook(master)
 
         self.tabInstructions = ttk.Frame(self.tab_parent)
-        self.tab_parent.add(self.tabInstructions, text=" - INSTRUCTIONS - ")
+        self.tab_parent.add(self.tabInstructions, text=" INSTRUCTIONS ")
         self.tab_parent.pack(expand=0, fill='both')
 
         self.imgInstructions = PhotoImage(file="./Instructions.gif")
@@ -43,17 +46,17 @@ class Gui(Frame):
         self.lblImgInstructions.place(x=10, y=10)
 
         self.nextIcon = PhotoImage(file="./nextIcon.gif")
-        self.btnNextInstructions = Button(self.tabInstructions, text="Next ", image=self.nextIcon, fg='#990000', font="Verdata 10 bold", width=80, height=26, command=self.nextStep)
+        self.btnNextInstructions = Button(self.tabInstructions, text="Start ", image=self.nextIcon, compound="right", bg='#ff8c00', font="Verdata 12 bold", width=100, height=30, command=self.nextStep)
         self.btnNextInstructions.place(x=450, y=530)
 
         self.tabStep1 = ttk.Frame(self.tab_parent)
-        self.tab_parent.add(self.tabStep1, text=" - STEP 1 OF 2- ")
+        self.tab_parent.add(self.tabStep1, text=" STEP 1 OF 2 ")
         self.tab_parent.pack(expand=1, fill='both')
         self.tab_parent.select(self.tabStep1)
 
         #Panel "Upload a Word file"
         #self.frmUploadFile = Frame(tabStep1,  height=60, width=700, bd=3, relief='groove', bg='#66CCCC').place(x=5, y=10)
-        self.lblStep1 = Label(self.tabStep1, text="Step 1.", fg='#990000', bg='#66CCCC', font="Verdata 16 bold").place(x=15, y=50)
+        self.lblStep1 = Label(self.tabStep1, text="Step 1", fg='#990000', bg='#66CCCC', font="Verdata 16 bold").place(x=5, y=5)
 
         self.lblLoadFile = Label(self.tabStep1, text="Upload a descriptor file", fg='#990000', bg='#66CCCC', font="Verdata 14 bold").place(x=15, y=100)
 
@@ -63,7 +66,7 @@ class Gui(Frame):
         self.uploadIcon = PhotoImage(file="./uploadFileIcon.gif")
         self.btnUploadFile = Button(self.tabStep1, text="Browse...", image=self.uploadIcon, fg='#990000', font="Verdata 10 bold", width=60, height=26, command=self.uploadFile).place(x=640, y=155)
 
-        self.btnNextStep1 = Button(self.tabStep1, text="Next ", image=self.nextIcon, fg='#990000', font="Verdata 10 bold", width=80, height=26, command=self.nextStep)
+        self.btnNextStep1 = Button(self.tabStep1, text="Next ", image=self.nextIcon, compound="right", bg='#ff8c00', font="Verdata 12 bold", width=100, height=30, command=self.nextStep)
         self.btnNextStep1.place(x=450, y=530)
         self.btnNextStep1originalPos = self.btnNextStep1.place_info()
         self.btnNextStep1.place_forget()
@@ -74,12 +77,13 @@ class Gui(Frame):
 
         self.tabStep2 = ttk.Frame(self.tab_parent)
         #self.tab_parent.add(self.tabStep2, text="STEP 2 - Set up the destination folder", state="hidden")
-        self.tab_parent.add(self.tabStep2, text="- STEP 2 OF 2-", state="disabled")
+        self.tab_parent.add(self.tabStep2, text=" STEP 2 OF 2 ", state="disabled")
         #self.tab_parent.hide(2)
 
         #Panel "Setting values"
         #self.frmFileName = Frame(height=180, width=700, bd=3, relief='groove', bg='#66CCCC').place(x=5, y=80)
-        self.lblPnlSettingValues = Label(self.tabStep2, text="2. Setting values", fg='#990000', bg='#66CCCC', font="Verdata 14 bold").place(x=15, y=50)
+        self.lblStep2 = Label(self.tabStep2, text="Step 2", fg='#990000', bg='#66CCCC', font="Verdata 16 bold").place(x=5, y=5)
+        self.lblPnlSettingValues = Label(self.tabStep2, text="Setting values", fg='#990000', bg='#66CCCC', font="Verdata 14 bold").place(x=15, y=50)
         self.lblSemester = Label(self.tabStep2, text="Semester - Year", bg='#66CCCC', font="Verdata 11").place(x=15, y=100)
 
         semesterOptions = ["S1", "S2", "S3"]
