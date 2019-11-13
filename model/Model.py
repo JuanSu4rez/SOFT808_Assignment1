@@ -123,8 +123,9 @@ class Model:
         newDoc.save(main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts)
 
         for z in moderationMaterial:
-            os.mkdir(
-                main_folder + backslash + "Assessment" + backslash + self.arrayFolders[0] + backslash + "ModerationMaterial" + backslash + z)
+            for y in self.arrayFolders:
+                os.mkdir(
+                    main_folder + backslash + "Assessment" + backslash + y + backslash + "ModerationMaterial" + backslash + z)
 
     def getExtractedCourseCode(self):
         return self.extractedCourseCode
