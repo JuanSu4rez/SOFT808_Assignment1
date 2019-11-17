@@ -18,13 +18,13 @@ class Controller:
         self.gui.mainloop()
 
     def readFile(self):
-        print "readFile controller"
+        #print "readFile controller"
         pathFileToRead = self.gui.txtFilePath.get()
         self.model.readFile(pathFileToRead)
         self.updateCourseCode()
         #self.updadeFolderNameToGenerate()
         #self.gui.drawTree(self.strFolderName, self.model.arrayFolders)
-        self.gui.activateTabStep2()
+
 
     def updateCourseCode(self):
         self.gui.txtCourseCode["state"] = 'normal'
@@ -32,7 +32,7 @@ class Controller:
         #self.gui.txtCourseCode.insert(0, self.model.extractedCourseCode)
         self.gui.txtCourseCode["text"] = self.model.extractedCourseCode
         #self.gui.txtCourseCode["state"] = 'readonly'
-        print "COntroller updateCourseCode"
+        #print "COntroller updateCourseCode"
 
     def uploadFile(self, param):
         pathFileToRead = param
@@ -43,12 +43,15 @@ class Controller:
             self.readFile()
             self.gui.showMessage("Success !","The file was read successfully")
             self.gui.activateBtnNext()
-        except Exception as e:
+            self.gui.activateTabStep2()
+        except IndexError as e:
             self.gui.showError("Error !", "The file does not have the correct structure")
             print str(e)
+            print str(e.__class__)
             self.gui.txtFilePath.delete(0, END)
             self.gui.txtFilePath.insert(0, "")
             self.gui.deactivateBtnNext()
+            self.gui.disableTabStep2()
 
 
     def updateFolderDestination(self):
@@ -71,11 +74,12 @@ class Controller:
             self.gui.drawTree(self.strFolderName, self.model.arrayFolders)
             if len(pathDestination) > 0:
                 self.gui.activateBtnGenerate()
-        print "Controller updadeFolderNameToGenerate"
+            print "path destination [" +  pathDestination + "]"
+        #print "Controller updadeFolderNameToGenerate"
 
 
     def generateFolders(self):
-        print "generateFolders() Controller"
+        #print "generateFolders() Controller"
         # TODO generate the name of the folder
         # self.model.createFolders(self.gui.strFolderName, self.gui.strPathSelectedFolder)
         try:

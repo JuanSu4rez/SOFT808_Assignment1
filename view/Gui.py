@@ -35,18 +35,20 @@ class Gui(Frame):
         #font = ('URW Gothic L', '11', 'bold')
 
         self.tab_parent = ttk.Notebook(master)
+        self.tab_parent.grid(row=0, column=0, sticky="nw")
+
 
         self.tabInstructions = ttk.Frame(self.tab_parent)
-        self.tab_parent.add(self.tabInstructions, text=" INSTRUCTIONS ")
-        self.tab_parent.pack(expand=0, fill='both')
+        #self.tab_parent.add(self.tabInstructions, text=" INSTRUCTIONS ")
+        #self.tab_parent.pack(expand=0, fill='both')
 
-        self.imgInstructions = PhotoImage(file="./Instructions.gif")
-        self.lblImgInstructions = Label(self.tabInstructions, image=self.imgInstructions, borderwidth=1)
-        self.lblImgInstructions.pack()
-        self.lblImgInstructions.place(x=10, y=10)
+        #self.imgInstructions = PhotoImage(file="./Instructions.gif")
+        #self.lblImgInstructions = Label(self.tabInstructions, image=self.imgInstructions, borderwidth=1)
+        #self.lblImgInstructions.pack()
+        #self.lblImgInstructions.place(x=10, y=10)
 
         self.nextIcon = PhotoImage(file="./nextIcon.gif")
-        self.btnNextInstructions = Button(self.tabInstructions, text="Start ", image=self.nextIcon, compound="right", bg='#ff8c00', font="Verdata 12 bold", width=100, height=30, command=self.nextStep)
+        self.btnNextInstructions = Button(self.tabInstructions, text="Start ", image=self.nextIcon, compound="right", bg='#ff8c00', font="Verdata 12 bold", width=150, height=30, command=self.nextStep)
         self.btnNextInstructions.place(x=450, y=530)
 
         self.tabStep1 = ttk.Frame(self.tab_parent)
@@ -66,7 +68,7 @@ class Gui(Frame):
         self.uploadIcon = PhotoImage(file="./uploadFileIcon.gif")
         self.btnUploadFile = Button(self.tabStep1, text="Browse...", image=self.uploadIcon, fg='#990000', font="Verdata 10 bold", width=60, height=26, command=self.uploadFile).place(x=640, y=155)
 
-        self.btnNextStep1 = Button(self.tabStep1, text="Next ", image=self.nextIcon, compound="right", bg='#ff8c00', font="Verdata 12 bold", width=100, height=30, command=self.nextStep)
+        self.btnNextStep1 = Button(self.tabStep1, text="Next ", image=self.nextIcon, compound="right", bg='#ff8c00', font="Verdata 12 bold", width=150, height=30, command=self.nextStep)
         self.btnNextStep1.place(x=450, y=530)
         self.btnNextStep1originalPos = self.btnNextStep1.place_info()
         self.btnNextStep1.place_forget()
@@ -164,10 +166,14 @@ class Gui(Frame):
 
         #Panel Instructions
 
-        self.imgLogo = PhotoImage(file="./Logo.gif")
-        self.lblImgLogo = Label(master, image=self.imgLogo)
-        self.lblImgLogo.pack()
-        self.lblImgLogo.place(x=930, y=30)
+        #self.imgLogo = PhotoImage(file="./Logo.gif")
+        #self.lblImgLogo = Label(master, image=self.imgLogo)
+        #self.lblImgLogo.pack()
+        #self.lblImgLogo.place(x=930, y=30)
+
+        self.userguideIcon = PhotoImage(file="./instructionsIcon.gif")
+        self.btnUserGuide = Button(self.tab_parent, text="User guide  ", image=self.userguideIcon, compound="right", font="Verdata 12 bold", width=150, height=30, command=self.showUserGuide)
+        self.btnUserGuide.place(x=930, y=30)
 
         #GUI attributes
         self.strPathSelectedFile = ""
@@ -184,12 +190,14 @@ class Gui(Frame):
     def activateTabStep2(self):
         #self.tab_parent.add(self.tabStep2)
         #self.tab_parent.add(self.tabStep2, state ='normal')
-        self.tab_parent.tab(2, state="normal")
+        self.tab_parent.tab(1, state="normal")
         #self.tabStep2["state"]="normal"
 
 
     def disableTabStep2(self):
-        self.tab_parent.hide(1)
+        #self.tab_parent.add(2, state="disabled")
+        self.tab_parent.tab(1, state="disabled")
+
 
     def setController(self, param):
         self.myController = param
@@ -205,10 +213,10 @@ class Gui(Frame):
         self.txtCourseCode["state"] = "enable"
 
     def drawTree(self, folderName, arrayFolders):
-        print "GUI drawTree params \n"
-        print  folderName
-        print "\n"
-        print arrayFolders
+        #print "\n +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ n"
+        #print "\nGUI drawTree params \n"
+        #print  folderName
+        #print arrayFolders
 
         tree = self.treeView
         self.cleanTreeView()
@@ -258,7 +266,7 @@ class Gui(Frame):
             tree.insert("LectureMaterial", 2, x, text=x, image=self.imgFolder)
 
         tree.item("Assessment", open=True)
-        print "GUI drawTree"
+        #print "GUI drawTree"
 
     def OnDoubleClick(self, event):
         item = self.treeView.identify('item', event.x, event.y)
@@ -266,7 +274,7 @@ class Gui(Frame):
         self.showMessage("click", "click me")
 
     def uploadFile(self):
-        print "upload file GUI"
+        #print "upload file GUI"
         pathSelectedFile = tkFileDialog.askopenfile(title="Select a Word file", filetypes=[('Word file', '*.docx'), ('Word file', '*.doc')])
         if pathSelectedFile is not None:
             self.myController.uploadFile(pathSelectedFile.name)
@@ -321,7 +329,7 @@ class Gui(Frame):
 
     def deactivateBtnNext(self):
         self.btnNextStep1.place_forget()
-        self.tab_parent.hide(2)
+        #self.tab_parent.hide(2)
 
     def activateBtnGenerate(self):
         self.btnGenerate.place(self.btnGenerateoriginalPos)
@@ -336,12 +344,22 @@ class Gui(Frame):
         self.cleanTreeView()
         self.deactivateBtnGenerate()
 
+        self.strPathSelectedFile = ""
+        self.strPathSelectedFolder = ""
+        self.strFolderName = ""
+
     def cleanTreeView(self):
         tree = self.treeView
         treeChildren = tree.get_children()
         for item in treeChildren:
             tree.detach(item)
             tree.delete(item)
+        tree.delete(*tree.get_children())
+        #print "\n cleanTreeView \n"
+
+    def showUserGuide(self):
+        pnlInstructions = PnlInstructions(self)
+        pnlInstructions.wait_window()
 
 class successDialog(Toplevel):
 
@@ -362,6 +380,31 @@ class successDialog(Toplevel):
 
         self.btnNextStep1 = Button(self, text="Open folder", fg='#990000', font="Verdata 10 bold", width=10, height=1, command=self.buttonpressed)
         self.btnNextStep1.place(x=40, y=70)
+
+    def buttonpressed(self):
+        #self.master.entryvalue = self.e1.get()
+        self.exit_popup()
+
+    def exit_popup(self):
+        self.destroy()
+
+class PnlInstructions(Toplevel):
+
+    def __init__(self, master):
+        Toplevel.__init__(self)
+        self.master = master
+        self.geometry("900x460")
+        self.title("User guide")
+        self.lift()
+        self.focus_force()
+        self.grab_set()
+        self.resizable( width=False, height=FALSE)
+        #self.grab_release()
+
+        self.imgInstructions = PhotoImage(file="./Instructions.gif")
+        self.lblImgInstructions = Label(self, image=self.imgInstructions, borderwidth=1)
+        self.lblImgInstructions.pack()
+        self.lblImgInstructions.place(x=0, y=0)
 
     def buttonpressed(self):
         #self.master.entryvalue = self.e1.get()

@@ -30,7 +30,7 @@ class Model:
         self.btnProcess["state"] = "active"
 
     def readFile(self, pathFile):
-        print "readFile model " + pathFile
+        #print "readFile model " + pathFile
         text = docx2txt.process(pathFile)
         self.cdPath = pathFile
         #Course Code
@@ -57,10 +57,12 @@ class Model:
             secondResult[x-1] = splitResult[x].split('\n')
             #print x
 
+        self.arrayFolders = []
         for j in secondResult:
             if secondResult[j][1] is not None:
                 print secondResult[j][1]
-                self.arrayFolders.append(str(secondResult[j][1]))
+                #self.arrayFolders.append(str(secondResult[j][1]))
+                self.arrayFolders.append((str(secondResult[j][1])).strip())
             else:
                 print "empty row"
 
@@ -71,7 +73,7 @@ class Model:
 ##############################################################################
 
     def createFolders(self, folderName, pathDestination):
-        print " - createFolders model - "
+        #print " - createFolders model - "
         #  print "The folders should be created in " + str(pathDestination) + " with the name " + str(folderName)
         backslash = "/"
         main_folder = pathDestination + backslash + folderName
@@ -81,6 +83,8 @@ class Model:
         stage_1 = ["Assessment", "ClassRoll", "CourseOutline", "CourseResultSummary", "LectureMaterial", "Other Documents", "SpreadSheet"]
 
         assesment = self.arrayFolders
+        print "\n Model_CreateFolders \n"
+        print assesment
         courseOutline = ["Drafts", "ModerationForm"]
         lectureMaterial = ["Book", "Week1", "Week2", "Week3", "Week4", "Week5", "Week7", "Week8", "Week9", "Week10", "Week11", "Week12"]
 
@@ -107,14 +111,14 @@ class Model:
             os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + x3)
         os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + week6)
 
-        print "source " + self.cdPath
-        print "destination " + main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts
-        print "drafts " + drafts
+        #print "source " + self.cdPath
+        #print "destination " + main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts
+        #print "drafts " + drafts
 
         destinationFolder = self.cdPath.split('/')
 
-        print "------------------------------"
-        print destinationFolder
+        #print "------------------------------"
+        #print destinationFolder
 
         copyfile(self.cdPath, main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + destinationFolder[len(destinationFolder) - 1])
 
