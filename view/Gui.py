@@ -245,22 +245,26 @@ class Gui(Frame):
             tree.insert("Assessment", 1, x, text=x, image=self.imgFolder)
             #tree.bind("<Button-3>", self.OnDoubleClick)
             tree.insert(x, iterator, text="Drafts", image=self.imgFolder)
-            if iterator == 0:
-                tree.insert(x, iterator, iid="Child1", text="ModerationMaterial", image=self.imgFolder)
-                #tree.insert(x, iterator, text="ModerationMaterial", image=self.imgFolder)
-            else:
-                tree.insert(x, iterator, text="ModerationMaterial", image=self.imgFolder)
+            #if iterator == 0:
+                #tree.insert(x, iterator, iid="Child1", text="ModerationMaterial", image=self.imgFolder)
+            #tree.insert(x, iterator, text="ModerationMaterial", image=self.imgFolder)
+            #else:
+            varid = x + str(iterator)
+            tree.insert(x, iterator, iid=varid, text="ModerationMaterial", image=self.imgFolder)
+            for y in moderationMaterial:
+                tree.insert(varid, 1, None, text=y, image=self.imgFolder)
+                #tree.insert(varid, 1, y, text=y, image=self.imgFolder)
             tree.insert(x, iterator, text="Submissions", image=self.imgFolder)
             iterator = iterator + 1
 
-        for y in moderationMaterial:
-            tree.insert("Child1", 1, y, text=y, image=self.imgFolder)
+        #for y in moderationMaterial:
+            #tree.insert("Child1", 1, y, text=y, image=self.imgFolder)
 
         for x in courseOutline:
             tree.insert("CourseOutline", 2, x, text=x, image=self.imgFolder)
 
         tree.insert("Drafts", 2, "Soft808", text="Soft808", image=self.imgFile)
-        tree.insert("Drafts", 2, "Soft808_2", text="Soft808_2", image=self.imgFile)
+        tree.insert("Drafts", 2, "Soft808_2", text= self.txtCourseCode["text"], image=self.imgFile)
 
         for x in lectureMaterial:
             tree.insert("LectureMaterial", 2, x, text=x, image=self.imgFolder)
@@ -375,7 +379,7 @@ class successDialog(Toplevel):
         #self.grab_release()
 
         # add an entry widget
-        self.lblResult = Label(self, text="The folders have been created !", font="Verdata 10 ").place(x=20, y=10)
+        self.lblResult = Label(self, text="The folders have been created !", font="Verdata 10").place(x=20, y=10)
         #self.e1.pack()
 
         self.btnNextStep1 = Button(self, text="Open folder", fg='#990000', font="Verdata 10 bold", width=10, height=1, command=self.buttonpressed)
