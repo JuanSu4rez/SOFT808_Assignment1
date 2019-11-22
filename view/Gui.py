@@ -32,6 +32,7 @@ class Gui(Frame):
         self.style.configure('.', background='#66CCCC')
         self.style.configure('TNotebook.Tab', font=('Verdata', '10', 'bold'))
         self.style.configure('rightTab.TNotebook', font=('Verdata', '10', 'bold'), tabposition='ws')
+
         #font = ('URW Gothic L', '11', 'bold')
 
         self.tab_parent = ttk.Notebook(master)
@@ -69,7 +70,7 @@ class Gui(Frame):
         self.btnUploadFile = Button(self.tabStep1, text="Browse...", image=self.uploadIcon, fg='#990000', font="Verdata 10 bold", width=60, height=26, command=self.uploadFile).place(x=640, y=155)
 
         self.btnNextStep1 = Button(self.tabStep1, text="Next ", image=self.nextIcon, compound="right", bg='#ff8c00', font="Verdata 12 bold", width=150, height=30, command=self.nextStep)
-        self.btnNextStep1.place(x=450, y=530)
+        self.btnNextStep1.place(x=450, y=430)
         self.btnNextStep1originalPos = self.btnNextStep1.place_info()
         self.btnNextStep1.place_forget()
 
@@ -80,13 +81,14 @@ class Gui(Frame):
         self.tabStep2 = ttk.Frame(self.tab_parent)
         #self.tab_parent.add(self.tabStep2, text="STEP 2 - Set up the destination folder", state="hidden")
         self.tab_parent.add(self.tabStep2, text=" STEP 2 OF 2 ", state="disabled")
+        #self.tab_parent.add(self.tabStep2, text=" STEP 2 OF 2 ")
         #self.tab_parent.hide(2)
 
         #Panel "Setting values"
         #self.frmFileName = Frame(height=180, width=700, bd=3, relief='groove', bg='#66CCCC').place(x=5, y=80)
         self.lblStep2 = Label(self.tabStep2, text="Step 2", fg='#990000', bg='#66CCCC', font="Verdata 16 bold").place(x=5, y=5)
-        self.lblPnlSettingValues = Label(self.tabStep2, text="Setting values", fg='#990000', bg='#66CCCC', font="Verdata 14 bold").place(x=15, y=50)
-        self.lblSemester = Label(self.tabStep2, text="Semester - Year", bg='#66CCCC', font="Verdata 11").place(x=15, y=100)
+        self.lblPnlSettingValues = Label(self.tabStep2, text="Setting values", fg='#990000', bg='#66CCCC', font="Verdata 14 bold").place(x=35, y=50)
+        self.lblSemester = Label(self.tabStep2, text="Semester - Year", bg='#66CCCC', font="Verdata 11").place(x=35, y=100)
 
         semesterOptions = ["S1", "S2", "S3"]
 
@@ -96,9 +98,14 @@ class Gui(Frame):
             for y in semesterOptions:
                 yearOptions.append(y + "-" + str(x))
 
+        self.imgFocusCombo = PhotoImage(file="./focusComboIcon.gif", format="gif -index 0")
+        self.lblFocusCombo = Label(self.tabStep2, bg='#66CCCC', image=self.imgFocusCombo, borderwidth=1)
+        self.lblFocusCombo.place(x=0, y=128)
+        self.lblFocusComboonoriginalPos = self.lblFocusCombo.place_info()
+
         self.semesterComboBox = ttk.Combobox(self.tabStep2, textvariable =self.semesterOption, values=yearOptions)
         self.semesterComboBox.config(width=15)
-        self.semesterComboBox.place(x=15, y=130, height=25)
+        self.semesterComboBox.place(x=35, y=130, height=25)
         self.semesterComboBox.set(yearOptions[0])
         self.semesterComboBox.bind("<<ComboboxSelected>>", self.updadeFileName)
 
@@ -114,30 +121,35 @@ class Gui(Frame):
         #self.yearComboBox.set(yearOptions[0])
         #self.yearComboBox.bind("<<ComboboxSelected>>", self.updadeFileName)
 
-        self.lblCourseCode = Label(self.tabStep2, text="Course code", bg='#66CCCC', font="Verdata 11").place(x=135, y=100)
+        self.lblCourseCode = Label(self.tabStep2, text="Course code", bg='#66CCCC', font="Verdata 11").place(x=155, y=100)
 
         #self.txtCourseCode = Entry(self.tabStep2, text="", width=12, state='readonly')
         self.txtCourseCode = Label(self.tabStep2, text="", width=12,  font="Verdata 10 bold")
-        self.txtCourseCode.place(x=135, y=130, height=25)
-        self.txtCourseCode.bind("<Key>", self.updadeFileName)
+        self.txtCourseCode.place(x=160, y=130, height=25)
+        #self.txtCourseCode.bind("<Key>", self.updadeFileName)
 
-        self.lblFolderName = Label(self.tabStep2, text="Folder name", bg='#66CCCC', font="Verdata 11").place(x=240, y=100)
+        self.lblFolderName = Label(self.tabStep2, text="Folder name", bg='#66CCCC', font="Verdata 11").place(x=270, y=100)
 
         self.txtFolderName = Label(self.tabStep2, text="", width=55, font="Verdata 10 bold")
-        self.txtFolderName.place(x=250, y=130, height=25)
+        self.txtFolderName.place(x=275, y=130, height=25)
 
-        self.lblDestination = Label(self.tabStep2, text="Select folder destination", bg='#66CCCC', font="Verdata 11").place(x=15, y=160)
+        self.lblDestination = Label(self.tabStep2, text="Select folder destination", bg='#66CCCC', font="Verdata 11").place(x=35, y=160)
 
-        self.txtFolderPath = Entry(self.tabStep2, text="", width=100)
-        self.txtFolderPath.place(x=15, y=190, height=25)
+        self.txtFolderPath = Label(self.tabStep2, text="", width=75, font="Verdata 10 bold")
+        self.txtFolderPath.place(x=35, y=190, height=25)
 
         self.destinationFolderIcon = PhotoImage(file="./destinationFolder.gif")
         self.btnSelectDestination = Button(self.tabStep2, text="Browse...",  image=self.destinationFolderIcon, borderwidth=2, relief=SOLID, font="Verdata 10 bold", width=60, height=26, command=self.selectDestination)
-        self.btnSelectDestination.place(x=625, y=185)
+        self.btnSelectDestination.place(x=655, y=185)
+
+        self.imgFocusButton = PhotoImage(file="./focusButtonIcon.gif")
+        self.lblFocusButton = Label(self.tabStep2, bg='#66CCCC', image=self.imgFocusButton, borderwidth=1)
+        self.lblFocusButton.place(x=725 , y=185)
+        self.lblFocusButtonoriginalPos = self.lblFocusButton.place_info()
 
         #self.btnGenerate = Button(self.tabStep2, text="Generate", bg='#39369C', fg='#FFFFFF', font="Verdata 12", width=40, command=self.generate)
-        self.btnGenerate = Button(self.tabStep2, text="Generate", bg='#ff8c00', font="Verdata 14 bold", width=20, command=self.generate)
-        self.btnGenerate.place(x=220, y=240)
+        self.btnGenerate = Button(self.tabStep2, text="Generate Kitcourse", bg='#ff8c00', font="Verdata 14 bold", width=20, command=self.generate)
+        self.btnGenerate.place(x=240, y=240)
         self.btnGenerateoriginalPos = self.btnGenerate.place_info()
         self.btnGenerate.place_forget()
 
@@ -145,13 +157,13 @@ class Gui(Frame):
         #Panel "Folder structure"
 
         #Tree
-        self.frmTree = Frame(self.tabStep2, height=300, width=700, bd=3, relief='groove', bg='#66CCCC').place(x=5, y=300)
-        self.lblFolderStructure = Label(self.tabStep2, text="Descriptor structure", bg='#66CCCC', font="Verdata 11").place(x=15, y=290)
+        self.frmTree = Frame(self.tabStep2, height=300, width=700, bd=3, relief='groove', bg='#66CCCC').place(x=35, y=300)
+        self.lblFolderStructure = Label(self.tabStep2, text="Descriptor structure", bg='#66CCCC', font="Verdata 11").place(x=45, y=290)
         self.treeView = ttk.Treeview(self.tabStep2, height=12)
-        self.treeView.place(x=10, y=320)
+        self.treeView.place(x=40, y=320)
 
         vsb = ttk.Scrollbar(self.tabStep2, orient="vertical", command=self.treeView.yview)
-        vsb.place(x=681, y=322, height=264)
+        vsb.place(x=711, y=322, height=264)
 
         self.treeView.configure(yscrollcommand=vsb.set)
 
@@ -171,9 +183,30 @@ class Gui(Frame):
         #self.lblImgLogo.pack()
         #self.lblImgLogo.place(x=930, y=30)
 
+        self.lblDraftFiles = Label(self.tab_parent, text="Instructions", bg='#66CCCC', font="Verdata 12 bold").place(x=850, y=30)
+
         self.userguideIcon = PhotoImage(file="./instructionsIcon.gif")
         self.btnUserGuide = Button(self.tab_parent, text="User guide  ", image=self.userguideIcon, compound="right", font="Verdata 12 bold", width=150, height=30, command=self.showUserGuide)
-        self.btnUserGuide.place(x=930, y=30)
+        self.btnUserGuide.place(x=900, y=80)
+
+        self.lblDraftFiles = Label(self.tab_parent, text="Template files", bg='#66CCCC', font="Verdata 12 bold").place(x=850, y=150)
+
+        self.lblDraftCourseOutline = Label(self.tab_parent, text="\CourseOutline\Drafts", bg='#66CCCC', font="Verdata 10 bold").place(x=850, y=200)
+        self.lblDraftCourseOutlineDate = Label(self.tab_parent, text="Latest upload date:", bg='#66CCCC', font="Verdata 10 bold")
+        self.lblDraftCourseOutlineDate.place(x=880, y=230)
+
+        #Last updated:
+
+        self.uploadDraft = PhotoImage(file="./uploadDraftIcon.gif")
+        self.btnUploadTemplate1 = Button(self.tab_parent, text="Update draft", image=self.uploadDraft, compound="right", font="Verdata 12 bold", width=150, height=30, command=self.uploadTemplate1)
+        self.btnUploadTemplate1.place(x=900, y=260)
+
+        self.lblDrafCourseResultSum = Label(self.tab_parent, text="\CourseResultSummary", bg='#66CCCC', font="Verdata 10 bold").place(x=850, y=330)
+        self.lblDrafCourseResultDate = Label(self.tab_parent, text="Latest upload date:", bg='#66CCCC', font="Verdata 10 bold")
+        self.lblDrafCourseResultDate.place(x=880, y=360)
+
+        self.btnUploadTemplate2 = Button(self.tab_parent, text="Update draft", image=self.uploadDraft, compound="right", font="Verdata 12 bold", width=150, height=30, command=self.uploadTemplate2)
+        self.btnUploadTemplate2.place(x=900, y=390)
 
         #GUI attributes
         self.strPathSelectedFile = ""
@@ -186,6 +219,18 @@ class Gui(Frame):
         self.imgFile = PhotoImage(file="File.gif")
 
         # self.pack()
+
+    def hidelblFocusButton(self):
+        self.lblFocusButton.place_forget()
+
+    def hidelblFocusCombo(self):
+        self.lblFocusCombo.place_forget()
+
+    def showlblFocusButton(self):
+        self.lblFocusButton.place(self.lblFocusButtonoriginalPos)
+
+    def showlblFocusCombo(self):
+        self.lblFocusCombo.place(self.lblFocusComboonoriginalPos)
 
     def activateTabStep2(self):
         #self.tab_parent.add(self.tabStep2)
@@ -279,10 +324,24 @@ class Gui(Frame):
 
     def uploadFile(self):
         #print "upload file GUI"
-        pathSelectedFile = tkFileDialog.askopenfile(title="Select a Word file", filetypes=[('Word file', '*.docx'), ('Word file', '*.doc')])
+        #pathSelectedFile = tkFileDialog.askopenfile(title="Select a Word file", filetypes=[('Word file', '*.docx'), ('Word file', '*.doc')])
+        pathSelectedFile = tkFileDialog.askopenfile(title="Select a Word file", filetypes=[('Word file', '*.docx')])
         if pathSelectedFile is not None:
             self.myController.uploadFile(pathSelectedFile.name)
 
+    def uploadTemplate1(self):
+        #print "upload file GUI"
+        #pathSelectedFile = tkFileDialog.askopenfile(title="Select a Word file", filetypes=[('Word file', '*.docx'), ('Word file', '*.doc')])
+        pathSelectedTemplate = tkFileDialog.askopenfile(title="Select a template file", filetypes=[('Word file', '*.docx')])
+        if pathSelectedTemplate is not None:
+            self.myController.uploadTemplate1(pathSelectedTemplate.name)
+
+    def uploadTemplate2(self):
+        #print "upload file GUI"
+        #pathSelectedFile = tkFileDialog.askopenfile(title="Select a Word file", filetypes=[('Word file', '*.docx'), ('Word file', '*.doc')])
+        pathSelectedTemplate = tkFileDialog.askopenfile(title="Select a template file", filetypes=[('Word file', '*.docx')])
+        if pathSelectedTemplate is not None:
+            self.myController.uploadTemplate2(pathSelectedTemplate.name)
 
     def nextStep(self):
         self.tab_parent.select(self.tab_parent.index("current") + 1)
@@ -319,8 +378,8 @@ class Gui(Frame):
         self.txtFilePath.insert(0, param)
 
     def setPathDestination(self, param):
-        self.txtFolderPath.delete(0, END)
-        self.txtFolderPath.insert(0, param)
+        self.txtFolderPath['text'] = ""
+        self.txtFolderPath['text'] = param
 
     def getPathDestination(self):
         return self.txtFolderPath.get()
@@ -343,14 +402,18 @@ class Gui(Frame):
 
     def resetValues(self):
         self.semesterComboBox.current(0)
+        self.txtCourseCode['text'] = ""
         self.txtFolderName['text'] = ""
-        self.txtFolderPath.delete(0, END)
+        self.txtFolderPath['text'] = ""
         self.cleanTreeView()
         self.deactivateBtnGenerate()
+        self.showlblFocusCombo()
+        self.showlblFocusButton()
 
         self.strPathSelectedFile = ""
         self.strPathSelectedFolder = ""
         self.strFolderName = ""
+
 
     def cleanTreeView(self):
         tree = self.treeView

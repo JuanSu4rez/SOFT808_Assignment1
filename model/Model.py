@@ -133,3 +133,4 @@ class Model:
 
     def getExtractedCourseCode(self):
         return self.extractedCourseCode
+

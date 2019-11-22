@@ -1,6 +1,9 @@
+import os
 from model import Model as myModel
 from view import Gui as myGui
 from Tkinter import *
+import xml.etree.ElementTree as ET
+from datetime import datetime
 
 #   SOFT808 Software User Experience
 #   Juan Sebastian Suarez
@@ -15,7 +18,14 @@ class Controller:
         self.gui = myGui.Gui(master=root)
         self.gui.setController(self)
 
+        try:
+            self.readConfigFile()
+        except IOError as e:
+            self.gui.showError("Error !", "The config file could not be read" + "\n\n" + str(e))
+
         self.gui.mainloop()
+
+
 
     def readFile(self):
         #print "readFile controller"
@@ -34,6 +44,33 @@ class Controller:
         #self.gui.txtCourseCode["state"] = 'readonly'
         #print "COntroller updateCourseCode"
 
+    def uploadTemplate1(self, param):
+        print "Controller uploadTemplate 1"
+        abs_path = sys.path[0]
+        base_name = os.path.dirname(abs_path)
+        configFile_path = os.path.join(base_name, "config/config.xml")
+        xmldoc = ET.parse(configFile_path)
+        rootXml = xmldoc.getroot()
+
+        rootXml[0].find('uploadDate').text = datetime.today().strftime('%d-%m-%Y')
+        self.gui.lblDraftCourseOutlineDate['text'] = "Latest upload date: " + datetime.today().strftime('%d-%m-%Y')
+
+        xmldoc.write(configFile_path)
+
+    def uploadTemplate2(self, param):
+        print "Controller uploadTemplate 2"
+        # print "readConfigFile"
+        abs_path = sys.path[0]
+        base_name = os.path.dirname(abs_path)
+        configFile_path = os.path.join(base_name, "config/config.xml")
+        xmldoc = ET.parse(configFile_path)
+        rootXml = xmldoc.getroot()
+
+        rootXml[1].find('uploadDate').text = datetime.today().strftime('%d-%m-%Y')
+        self.gui.lblDrafCourseResultDate['text'] = "Latest upload date: " + datetime.today().strftime('%d-%m-%Y')
+
+        xmldoc.write(configFile_path)
+
     def uploadFile(self, param):
         pathFileToRead = param
         self.gui.txtFilePath.delete(0, END)
@@ -45,7 +82,15 @@ class Controller:
             self.gui.activateBtnNext()
             self.gui.activateTabStep2()
         except IndexError as e:
-            self.gui.showError("Error !", "The file does not have the correct structure")
+            self.gui.showError("Error !", "The file does not have the correct structure" + "\n\nError description: " + str(e))
+            print str(e)
+            print str(e.__class__)
+            self.gui.txtFilePath.delete(0, END)
+            self.gui.txtFilePath.insert(0, "")
+            self.gui.deactivateBtnNext()
+            self.gui.disableTabStep2()
+        except Exception as e:
+            self.gui.showError("Error !", "There was an error reading the file" + "\n\nError description: " + str(e) + "\n\nPlease check the file you are trying to upload")
             print str(e)
             print str(e.__class__)
             self.gui.txtFilePath.delete(0, END)
@@ -58,6 +103,7 @@ class Controller:
         pathDestination = self.gui.strPathSelectedFolder
         if pathDestination.__class__ == unicode:
             self.gui.setPathDestination(pathDestination)
+            self.gui.hidelblFocusButton()
             if self.gui.semesterComboBox.current() != 0:
                 self.gui.activateBtnGenerate()
 
@@ -70,6 +116,7 @@ class Controller:
             self.gui.txtFolderName["text"] = self.strFolderName
             #self.gui.txtFolderName.insert(0, self.strFolderName)
             #self.gui.txtFolderName["state"] = 'readonly'
+            self.gui.hidelblFocusCombo()
             pathDestination = self.gui.strPathSelectedFolder
             self.gui.drawTree(self.strFolderName, self.model.arrayFolders)
             if len(pathDestination) > 0:
@@ -89,10 +136,22 @@ class Controller:
         except Exception as e:
             self.gui.showError("Error !", "There was an error during the folder generation" + "\n\n" + str(e))
 
+    def readConfigFile(self):
+        #print "readConfigFile"
+        abs_path = sys.path[0]
+        base_name = os.path.dirname(abs_path)
+        configFile_path = os.path.join(base_name, "config/config.xml")
+        xmldoc = ET.parse(configFile_path)
+        rootXml = xmldoc.getroot()
+
+        self.gui.lblDraftCourseOutlineDate['text'] = self.gui.lblDrafCourseResultDate['text'] + " " + rootXml[0].find('uploadDate').text
+        self.gui.lblDrafCourseResultDate['text'] = self.gui.lblDrafCourseResultDate['text'] + " " + rootXml[1].find('uploadDate').text
+
 
 if __name__ == '__main__':
     root = Tk()
     control = Controller()
+
 
 # model = myModel.Model()
 # app = myGui.Gui(master=root)
