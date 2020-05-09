@@ -1,7 +1,10 @@
+import sys
+
 import docx
 import os
 import docx2txt
 from shutil import copyfile
+import xml.etree.ElementTree as ET
 
 
 #   SOFT808 Software User Experience
@@ -66,12 +69,9 @@ class Model:
             else:
                 print "empty row"
 
-        #for p in self.arrayFolders:
-        #    print p
-
-##############################################################################
-##############################################################################
-
+    #   SOFT808 Software User Experience
+    #   Imdad hossain
+    #   method to generate the folders and copy the files
     def createFolders(self, folderName, pathDestination):
         #print " - createFolders model - "
         #  print "The folders should be created in " + str(pathDestination) + " with the name " + str(folderName)
@@ -87,7 +87,6 @@ class Model:
         print assesment
         courseOutline = ["Drafts", "ModerationForm"]
         lectureMaterial = ["Book", "Week1", "Week2", "Week3", "Week4", "Week5", "Week7", "Week8", "Week9", "Week10", "Week11", "Week12"]
-
 
         drafts = "Soft808.docx"
 
@@ -111,20 +110,33 @@ class Model:
             os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + x3)
         os.mkdir(main_folder + backslash + "LectureMaterial" + backslash + week6)
 
-        #print "source " + self.cdPath
-        #print "destination " + main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts
-        #print "drafts " + drafts
-
         destinationFolder = self.cdPath.split('/')
 
         #print "------------------------------"
         #print destinationFolder
 
-        copyfile(self.cdPath, main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + destinationFolder[len(destinationFolder) - 1])
+        #copyfile(self.cdPath, main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + destinationFolder[len(destinationFolder) - 1])
 
-        newDoc = docx.Document()
-        newDoc.add_paragraph("Sample Course Outline")
-        newDoc.save(main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts)
+        configFile_path = os.path.join(os.getcwd(), "config\\config.xml")
+        xmldoc = ET.parse(configFile_path)
+        rootXml = xmldoc.getroot()
+
+        titleTemplate1 = rootXml[0].find('title').text
+        titleTemplate2 = rootXml[1].find('title').text
+
+        template1_path = os.path.join(os.getcwd(), "Templates\\" + titleTemplate1)
+        template2_path = os.path.join(os.getcwd(), "Templates\\" + titleTemplate2)
+
+        template1_destination = main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + titleTemplate1
+        copyfile(template1_path, template1_destination)
+
+        template2_destination = main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + titleTemplate2
+        copyfile(template2_path, main_folder + backslash + "CourseResultSummary" + backslash + titleTemplate2)
+        #copyfile(template2_path, )
+
+        #newDoc = docx.Document()
+        #newDoc.add_paragraph("Sample Course Outline")
+        #newDoc.save(main_folder + backslash + "CourseOutline" + backslash + "Drafts" + backslash + drafts)
 
         for z in moderationMaterial:
             for y in self.arrayFolders:

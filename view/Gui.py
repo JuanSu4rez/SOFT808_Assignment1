@@ -192,21 +192,25 @@ class Gui(Frame):
         self.lblDraftFiles = Label(self.tab_parent, text="Template files", bg='#66CCCC', font="Verdata 12 bold").place(x=850, y=150)
 
         self.lblDraftCourseOutline = Label(self.tab_parent, text="\CourseOutline\Drafts", bg='#66CCCC', font="Verdata 10 bold").place(x=850, y=200)
-        self.lblDraftCourseOutlineDate = Label(self.tab_parent, text="Latest upload date:", bg='#66CCCC', font="Verdata 10 bold")
-        self.lblDraftCourseOutlineDate.place(x=880, y=230)
 
-        #Last updated:
+        self.lblDraftCourseOutlineName = Label(self.tab_parent, text="", bg='#66CCCC', font="Verdata 10 bold")
+        self.lblDraftCourseOutlineName.place(x=880, y=230)
+        self.lblDraftCourseOutlineDate = Label(self.tab_parent, text="Latest upload date:", bg='#66CCCC', font="Verdata 10 bold")
+        self.lblDraftCourseOutlineDate.place(x=880, y=260)
 
         self.uploadDraft = PhotoImage(file="./uploadDraftIcon.gif")
         self.btnUploadTemplate1 = Button(self.tab_parent, text="Update draft", image=self.uploadDraft, compound="right", font="Verdata 12 bold", width=150, height=30, command=self.uploadTemplate1)
-        self.btnUploadTemplate1.place(x=900, y=260)
+        self.btnUploadTemplate1.place(x=900, y=290)
 
-        self.lblDrafCourseResultSum = Label(self.tab_parent, text="\CourseResultSummary", bg='#66CCCC', font="Verdata 10 bold").place(x=850, y=330)
+        self.lblDrafCourseResultSum = Label(self.tab_parent, text="\CourseResultSummary", bg='#66CCCC', font="Verdata 10 bold").place(x=850, y=360)
+
+        self.lblDrafCourseResultName = Label(self.tab_parent, text="", bg='#66CCCC', font="Verdata 10 bold")
+        self.lblDrafCourseResultName.place(x=880, y=390)
         self.lblDrafCourseResultDate = Label(self.tab_parent, text="Latest upload date:", bg='#66CCCC', font="Verdata 10 bold")
-        self.lblDrafCourseResultDate.place(x=880, y=360)
+        self.lblDrafCourseResultDate.place(x=880, y=420)
 
         self.btnUploadTemplate2 = Button(self.tab_parent, text="Update draft", image=self.uploadDraft, compound="right", font="Verdata 12 bold", width=150, height=30, command=self.uploadTemplate2)
-        self.btnUploadTemplate2.place(x=900, y=390)
+        self.btnUploadTemplate2.place(x=900, y=450)
 
         #GUI attributes
         self.strPathSelectedFile = ""

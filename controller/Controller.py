@@ -4,6 +4,7 @@ from view import Gui as myGui
 from Tkinter import *
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from shutil import copyfile
 
 #   SOFT808 Software User Experience
 #   Juan Sebastian Suarez
@@ -46,31 +47,33 @@ class Controller:
 
     def uploadTemplate1(self, param):
         print "Controller uploadTemplate 1"
-        abs_path = sys.path[0]
-        base_name = os.path.dirname(abs_path)
-        configFile_path = os.path.join(base_name, "config/config.xml")
+        copyfile(param, os.path.join(os.getcwd(), "Templates\\" + os.path.basename(param)))
+        configFile_path = os.path.join(os.getcwd(), "config\\config.xml")
         xmldoc = ET.parse(configFile_path)
         rootXml = xmldoc.getroot()
-
         rootXml[0].find('uploadDate').text = datetime.today().strftime('%d-%m-%Y')
+        rootXml[0].find('title').text = os.path.basename(param)
         self.gui.lblDraftCourseOutlineDate['text'] = "Latest upload date: " + datetime.today().strftime('%d-%m-%Y')
+        self.gui.lblDraftCourseOutlineName['text'] = os.path.basename(param)
 
         xmldoc.write(configFile_path)
 
     def uploadTemplate2(self, param):
         print "Controller uploadTemplate 2"
         # print "readConfigFile"
-        abs_path = sys.path[0]
-        base_name = os.path.dirname(abs_path)
-        configFile_path = os.path.join(base_name, "config/config.xml")
+        copyfile(param, os.path.join(os.getcwd(), "Templates\\" + os.path.basename(param)))
+        configFile_path = os.path.join(os.getcwd(), "config\\config.xml")
         xmldoc = ET.parse(configFile_path)
         rootXml = xmldoc.getroot()
-
         rootXml[1].find('uploadDate').text = datetime.today().strftime('%d-%m-%Y')
+        rootXml[1].find('title').text = os.path.basename(param)
         self.gui.lblDrafCourseResultDate['text'] = "Latest upload date: " + datetime.today().strftime('%d-%m-%Y')
+        self.gui.lblDrafCourseResultName['text'] = os.path.basename(param)
 
         xmldoc.write(configFile_path)
 
+    #   SOFT808 Software User Experience
+    #   Juan Sebastian Suarez
     def uploadFile(self, param):
         pathFileToRead = param
         self.gui.txtFilePath.delete(0, END)
@@ -136,16 +139,22 @@ class Controller:
         except Exception as e:
             self.gui.showError("Error !", "There was an error during the folder generation" + "\n\n" + str(e))
 
+    #   SOFT808 Software User Experience
+    #   Juan Sebastian Suarez
     def readConfigFile(self):
         #print "readConfigFile"
-        abs_path = sys.path[0]
+        abs_path = sys.argv[0]
         base_name = os.path.dirname(abs_path)
-        configFile_path = os.path.join(base_name, "config/config.xml")
+        print  os.getcwd()
+        configFile_path = os.path.join(os.getcwd(), "config\\config.xml")
         xmldoc = ET.parse(configFile_path)
         rootXml = xmldoc.getroot()
 
         self.gui.lblDraftCourseOutlineDate['text'] = self.gui.lblDrafCourseResultDate['text'] + " " + rootXml[0].find('uploadDate').text
         self.gui.lblDrafCourseResultDate['text'] = self.gui.lblDrafCourseResultDate['text'] + " " + rootXml[1].find('uploadDate').text
+
+        self.gui.lblDraftCourseOutlineName['text'] =  rootXml[0].find('title').text
+        self.gui.lblDrafCourseResultName['text'] = rootXml[1].find('title').text
 
 
 if __name__ == '__main__':
